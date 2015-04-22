@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>project othor - conversation tree prototype</title>
+<style>
+body {
+  background: black;
+  font-family: monospace;
+  font-size: 200%;
+  position: absolute;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
+}
+.speech {
+  color: white;
+  background: blue linear-gradient(to bottom, #44f, #006);
+  border: 8px ridge silver;
+  border-radius: 16px;
+  vertical-align: top;
+  padding: 1em;
+  margin: 1em;
+  text-shadow: 2px 2px 0.05em black;
+  transition: 0.5s;
+}
+.speech .npc {
+  color: yellow;
+  display: inline-block;
+  margin-right: 1em;
+  text-align: center;
+}
+.speech .dialog {
+  margin: 0;
+  vertical-align: top;
+  display: inline-block;
+}
+.center {
+  text-align: center;
+}
+#next {
+  background: green linear-gradient(to bottom, limegreen, darkgreen);
+  color: white;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  text-shadow: -1px -1px 0.15em black, 1px 1px 0.15em lightgreen;
+  transition: 0.25s;
+}
+#next:hover {
+  background: green linear-gradient(to bottom, lightgreen, green);
+}
+#next.glow, #next:active {
+  box-shadow: 0 0 1em lightgreen;
+}
+.gone {
+  overflow: hidden;
+  height: 0px;
+}
+.hidden {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">Hey, whatcha working on?
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Oh, it's a way to design
+cartoon characters into
+buttercream frosting.
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">That's fun!  Chocolate or
+vanilla?
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Chocolate.  What project did
+they give you?
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">Well, my project is to design
+cyanide-laced toilet paper.
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Oh, yeah?  Interesting.
+</pre>
+<pre class="dialog hidden">Scented or unscented?
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">Scented.
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Yeah, I suppose that makes
+sense.
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">It was supposed to be
+single-ply...
+</pre>
+<pre class="dialog hidden">You know, to save costs.
+</pre>
+<pre class="dialog hidden">But imagine the last thing you
+do is wipe your ass with
+poisoned toilet paper.
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Yeah...  Dying because you got
+tricked into wiping with
+poison is already pretty harsh.
+</pre>
+<pre class="dialog hidden">Talk about adding insult to
+injury!
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/swen00.png" width=160><br>
+Swen
+</div>
+<pre class="dialog hidden">Word.
+</pre>
+<pre class="dialog hidden">So I figure the least I can do
+for the poor bastard is make
+it the softer two-ply stuff.
+You know?
+</pre>
+</div>
+
+<div class="speech hidden">
+<div class="npc"><img src="image/ghris00.png" width=160><br>
+Ghris
+</div>
+<pre class="dialog hidden">Sure.
+</pre>
+<pre class="dialog hidden">Hey, try this mint glaze.
+</pre>
+</div>
+
+
+<div class="center">
+<a id="next" href="javascript:next();">Next</a>
+</div>
+
+<script src="src/talk.js"></script>
+</body>
+</html>
