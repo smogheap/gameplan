@@ -1,0 +1,45 @@
+<html>
+  <head>
+   <title>Plower Defense</title>
+   <meta name="viewport" content="initial-scale=1.0,user-scalable=no" />
+    <style>
+      body, html {
+        background: black;
+        overflow: hide;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #page {
+        display: table;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #center {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+      #display {
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript" src="src/penduinart.js"></script>
+    <script type="text/javascript" src="src/plowerdefense.js"></script>
+	<!-- data to LOAD() below -->
+    <script type="text/javascript" src="asset/egg.js"></script>
+    <script type="text/javascript" src="asset/sperm.js"></script>
+
+  </head>
+  <body>
+    <div id="page"><div id="center">
+      <canvas id="display"></canvas>
+    </div></div>
+  </body>
+</html>
