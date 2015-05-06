@@ -591,6 +591,7 @@ function penduinSCENE(canvas, logicWidth, logicHeight,
 	var bgcompcanv = null;
 	var backgrounds = {};
 	var objects = {};
+	var autoorder = true;
 	var vignette = null;
 	var ghostAmount = 0;
 	var ghostCtx = document.createElement("canvas").getContext("2d");
@@ -717,9 +718,9 @@ function penduinSCENE(canvas, logicWidth, logicHeight,
 */
 
 		// draw objects ordered by obj.y coordinate
-		var ordered = Object.keys(objects).sort(function(a, b) {
+		var ordered = autoorder ? Object.keys(objects).sort(function(a, b) {
 			return objects[a].y - objects[b].y;
-		});
+		}) : Object.keys(objects);
 		for(i in ordered) {
 			objects[ordered[i]].draw(ctx, scale, undefined, undefined,
 									 undefined, time);
@@ -876,6 +877,16 @@ function penduinSCENE(canvas, logicWidth, logicHeight,
 		ctx.webkitImageSmoothingEnabled = !jaggy;
 		ctx.msImageSmoothingEnabled = !jaggy;
 		ctx.imageSmoothingEnabled = !jaggy;
+	};
+
+	// set whether to auto-sort drawing order
+	this.setAutoOrder = function setAutoOrder(auto) {
+		autoorder = auto;
+	};
+
+	// get the scene's scaling factor
+	this.getScale = function getScale() {
+		return scale;
 	};
 
 	// pause the scene

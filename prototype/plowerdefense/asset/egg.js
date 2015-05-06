@@ -20,6 +20,10 @@ LOAD({
 				{
 					"name": "nucleus",
 					"image": "image/eggcell.png",
+					"pivot": {
+						"x": 256,
+						"y": 256
+					},
 					"offset": {
 						"x": 256,
 						"y": 256
