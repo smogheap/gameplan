@@ -58,8 +58,8 @@ var requestAnimationFrame = (window.requestAnimationFrame ||
 
 function move(thing, direction, speed) {
 //	thing.x += speed;
-	thing.x += speed * Math.cos(direction.rotate * TO_RADIANS);
-	thing.y -= speed * Math.sin(direction.rotate * TO_RADIANS);
+	thing.x += speed * Math.cos(direction * TO_RADIANS);
+	thing.y += speed * Math.sin(direction * TO_RADIANS);
 }
 
 function tick(scene, time) {
@@ -67,27 +67,27 @@ function tick(scene, time) {
 	PD.thing.egg.$.nucleus.scale = 0.4 + (Math.cos(time / 200) * 0.05);
 
 	PD.oldangle = PD.thing.egg.$.cell.rotate || 0;
-	if(PD.input.right && PD.input.up) {
+	if(PD.input.right && PD.input.down) {
 		PD.thing.egg.$.cell.rotate = 45; // (PD.thing.egg.$.cell.rotate + 45) / 2;
-	} else if(PD.input.up && PD.input.left) {
+	} else if(PD.input.down && PD.input.left) {
 		PD.thing.egg.$.cell.rotate = 135; // (PD.thing.egg.$.cell.rotate + 135) / 2;
-	} else if(PD.input.left && PD.input.down) {
+	} else if(PD.input.left && PD.input.up) {
 		PD.thing.egg.$.cell.rotate = 225; // (PD.thing.egg.$.cell.rotate + 225) / 2;
-	} else if(PD.input.down && PD.input.right) {
+	} else if(PD.input.up && PD.input.right) {
 		PD.thing.egg.$.cell.rotate = 315; // (PD.thing.egg.$.cell.rotate + 315) / 2;
 	} else if(PD.input.right) {
 		PD.thing.egg.$.cell.rotate = 0; // (PD.thing.egg.$.cell.rotate + 0) / 2;
-	} else if(PD.input.up) {
+	} else if(PD.input.down) {
 		PD.thing.egg.$.cell.rotate = 90; // (PD.thing.egg.$.cell.rotate + 90) / 2;
 	} else if(PD.input.left) {
 		PD.thing.egg.$.cell.rotate = 180; // (PD.thing.egg.$.cell.rotate + 180) / 2;
-	} else if(PD.input.down) {
+	} else if(PD.input.up) {
 		PD.thing.egg.$.cell.rotate = 270; // (PD.thing.egg.$.cell.rotate + 270) / 2;
 	}
 
-	if(Math.abs(PD.oldangle - PD.thing.egg.$.cell.rotate) > 90  &&
-	   Math.abs((PD.oldangle + 360) - (PD.thing.egg.$.cell.rotate)) > 90 &&
-	   Math.abs((PD.oldangle) - (PD.thing.egg.$.cell.rotate + 360)) > 90) {
+	if(Math.abs(PD.oldangle - PD.thing.egg.$.cell.rotate) > 45  &&
+	   Math.abs((PD.oldangle + 360) - (PD.thing.egg.$.cell.rotate)) > 45 &&
+	   Math.abs((PD.oldangle) - (PD.thing.egg.$.cell.rotate + 360)) > 45) {
 		console.log(PD.oldangle, PD.thing.egg.$.cell.rotate);
 		PD.speed = 0;
 	} else {
@@ -100,7 +100,7 @@ function tick(scene, time) {
 		PD.speed = Math.min(PD.speed, 5);
 	}
 
-	move(PD.thing.egg, PD.thing.egg.$.cell, PD.speed);
+	move(PD.thing.egg, PD.thing.egg.$.cell.rotate, PD.speed);
 /*
 	if(PD.input.up) {
 		if(PD.input.left || PD.input.right) {
@@ -132,11 +132,49 @@ function tick(scene, time) {
 	}
 */
 
-	PD.thing.sperm.$.head.rotate = Math.sin(time / 100) * 5;
+	// animate sperms
+	PD.thing.sperm.$.head.rotate = 90 + (Math.sin(time / 100) * 5);
 	PD.thing.sperm.$.tail1.rotate = Math.sin(time / 100) * -40;
 	PD.thing.sperm.$.tail2.rotate = Math.cos(time / 100) * 40;
 	PD.thing.sperm.$.tail3.rotate = Math.sin(time / 100) * 40;
 
+	var dx = 0;
+	var dy = 0;
+
+	// move sperms
+	PD.sperms.every(function(sperm) {
+
+		// idiot, swims erratically
+		//sperm.rotate += (Math.random() - 0.5) * 10;
+
+		// orbit
+		//dx = sperm.x - PD.thing.egg.x;
+		//dy = sperm.y - PD.thing.egg.y;
+		//sperm.rotate = Math.atan2(dx, dy) / (Math.PI / -180);
+
+		// perfect chase
+		dx = PD.thing.egg.x - sperm.x;
+		dy = PD.thing.egg.y - sperm.y;
+		sperm.rotate = (Math.atan2(-dx, dy) / TO_RADIANS) + 90;
+
+		move(sperm, sperm.rotate, sperm.speed);
+
+		if(sperm.y < 0) {
+			sperm.y = PD.HEIGHT;
+		}
+		if(sperm.x > PD.WIDTH) {
+			sperm.x = 0;
+		}
+		if(sperm.y > PD.HEIGHT) {
+			sperm.y = 0;
+		}
+		if(sperm.x < 0) {
+			sperm.x = PD.WIDTH;
+		}
+
+		return true;
+	});
+/*
 	PD.sperms[0].y--;
 	if(PD.sperms[0].y < 0) {
 		PD.sperms[0].y = PD.HEIGHT;
@@ -153,12 +191,14 @@ function tick(scene, time) {
 	if(PD.sperms[3].x < 0) {
 		PD.sperms[3].x = PD.WIDTH;
 	}
+*/
 }
 
 function start() {
 	PD.scene = new penduinSCENE(PD.canvas, PD.WIDTH, PD.HEIGHT, tick);
 	PD.scene.setBG("#211");
 //	PD.scene.showFPS(true);
+	PD.scene.setAutoOrder(false);
 
 	PD.scene.addOBJ(PD.thing.egg);
 	PD.thing.egg.x = PD.WIDTH / 2;
@@ -168,31 +208,54 @@ function start() {
 		{
 			x: 100,
 			y: 100,
-			rotate: 0
+			rotate: 0,
+			speed: 1,
 		},
 		{
 			x: 200,
 			y: 200,
-			rotate: 90
+			rotate: 90,
+			speed: 1.5
 		},
 		{
 			x: 300,
 			y: 300,
-			rotate: 180
+			rotate: 180,
+			speed: 0.5,
 		},
 		{
 			x: 400,
 			y: 400,
-			rotate: 270
+			rotate: 270,
+			speed: 0.9
 		}
 	];
 	PD.thing.sperm.setInstances(PD.sperms);
+
+	PD.scene.addOBJ(PD.thing.aim);
+	PD.canvas.fireEvent
 }
 
 window.addEventListener("load", function() {
 	PD.canvas = document.querySelector("#display");
-	var cbs = [];
 
+	PD.canvas.addEventListener("mousemove", function(e) {
+		if(!PD.thing.aim) {
+			return;
+		}
+		var scale = PD.scene.getScale();
+		PD.thing.aim.x = (e.clientX - e.target.offsetLeft) / scale;
+		PD.thing.aim.y = (e.clientY - e.target.offsetTop) / scale;
+	});
+	PD.canvas.addEventListener("click", function(e) {
+		if(!PD.thing.aim) {
+			return;
+		}
+		if(PD.shot.length > 2) {
+		}
+	});
+
+	var cbs = [];
 	// load object armatures
 	Object.keys(PD.json).every(function(key) {
 		cbs.push(function(cb) {
@@ -201,14 +264,7 @@ window.addEventListener("load", function() {
 		});
 		return true;
 	});
-
 	combineCallbacks(cbs, null, start);
-});
-
-window.addEventListener("click", function() {
-	if(!PD.acceptinput) {
-		return;
-	}
 });
 
 function handlekey(event, down) {

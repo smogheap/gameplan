@@ -9,7 +9,7 @@ LOAD({
 				"x": 128,
 				"y": 128
 			},
-			"rotate": 0,
+			"rotate": 90,
 			"scale": 0.2,
 			"alpha": 1,
 			"offset": {
