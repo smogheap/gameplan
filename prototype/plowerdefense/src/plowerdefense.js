@@ -1,11 +1,13 @@
 var PD = {
 	WIDTH: 840,
 	HEIGHT: 480,
+	MAXSHOTS: 2,
 	canvas: null,
 	scene: null,
 	json: {},
 	thing: {},
 	sperms: [],
+	shots: [],
 	input: {
 		up: false,
 		down: false,
@@ -62,6 +64,32 @@ function move(thing, direction, speed) {
 	thing.y += speed * Math.sin(direction * TO_RADIANS);
 }
 
+function wrap(thing) {
+	if(thing.y < 0) {
+		thing.y = PD.HEIGHT;
+	}
+	if(thing.x > PD.WIDTH) {
+		thing.x = 0;
+	}
+	if(thing.y > PD.HEIGHT) {
+		thing.y = 0;
+	}
+	if(thing.x < 0) {
+		thing.x = PD.WIDTH;
+	}
+}
+
+function shoot() {
+	var dx = PD.thing.aim.x - PD.thing.egg.x;
+	var dy = PD.thing.aim.y - PD.thing.egg.y;
+	PD.thing.shot.addInstances({
+		x: PD.thing.egg.x,
+		y: PD.thing.egg.y,
+		rotate: (Math.atan2(-dx, dy) / TO_RADIANS) + 90,
+		speed: 10,
+	});
+}
+
 function tick(scene, time) {
 	PD.thing.egg.$.cell.scale = 0.5 + (Math.sin(time / 200) * 0.02);
 	PD.thing.egg.$.nucleus.scale = 0.4 + (Math.cos(time / 200) * 0.05);
@@ -101,36 +129,23 @@ function tick(scene, time) {
 	}
 
 	move(PD.thing.egg, PD.thing.egg.$.cell.rotate, PD.speed);
-/*
-	if(PD.input.up) {
-		if(PD.input.left || PD.input.right) {
-			PD.thing.egg.y -= 3;
-		} else {
-			PD.thing.egg.y -= 4;
+	wrap(PD.thing.egg);
+
+	// move shots
+	var delidx = -1;
+	PD.shots.every(function(shot, idx) {
+		move(shot, shot.rotate, shot.speed);
+
+		if(shot.y < 0 || shot.x < 0 ||
+		   shot.x > PD.WIDTH || shot.y > PD.HEIGHT) {
+			delidx = idx;
 		}
+
+		return true;
+	});
+	if(delidx >= 0) {
+		PD.shots.splice(delidx, 1);
 	}
-	if(PD.input.down) {
-		if(PD.input.left || PD.input.right) {
-			PD.thing.egg.y += 3;
-		} else {
-			PD.thing.egg.y += 4;
-		}
-	}
-	if(PD.input.left) {
-		if(PD.input.up || PD.input.down) {
-			PD.thing.egg.x -= 3;
-		} else {
-			PD.thing.egg.x -= 4;
-		}
-	}
-	if(PD.input.right) {
-		if(PD.input.up || PD.input.down) {
-			PD.thing.egg.x += 3;
-		} else {
-			PD.thing.egg.x += 4;
-		}
-	}
-*/
 
 	// animate sperms
 	PD.thing.sperm.$.head.rotate = 90 + (Math.sin(time / 100) * 5);
@@ -158,40 +173,10 @@ function tick(scene, time) {
 		sperm.rotate = (Math.atan2(-dx, dy) / TO_RADIANS) + 90;
 
 		move(sperm, sperm.rotate, sperm.speed);
-
-		if(sperm.y < 0) {
-			sperm.y = PD.HEIGHT;
-		}
-		if(sperm.x > PD.WIDTH) {
-			sperm.x = 0;
-		}
-		if(sperm.y > PD.HEIGHT) {
-			sperm.y = 0;
-		}
-		if(sperm.x < 0) {
-			sperm.x = PD.WIDTH;
-		}
+		wrap(sperm);
 
 		return true;
 	});
-/*
-	PD.sperms[0].y--;
-	if(PD.sperms[0].y < 0) {
-		PD.sperms[0].y = PD.HEIGHT;
-	}
-	PD.sperms[1].x++;
-	if(PD.sperms[1].x > PD.WIDTH) {
-		PD.sperms[1].x = 0;
-	}
-	PD.sperms[2].y++;
-	if(PD.sperms[2].y > PD.HEIGHT) {
-		PD.sperms[2].y = 0;
-	}
-	PD.sperms[3].x--;
-	if(PD.sperms[3].x < 0) {
-		PD.sperms[3].x = PD.WIDTH;
-	}
-*/
 }
 
 function start() {
@@ -231,6 +216,9 @@ function start() {
 		}
 	];
 	PD.thing.sperm.setInstances(PD.sperms);
+	PD.thing.shot.setInstances(PD.shots);
+
+	PD.scene.addOBJ(PD.thing.shot);
 
 	PD.scene.addOBJ(PD.thing.aim);
 	PD.canvas.fireEvent
@@ -248,11 +236,10 @@ window.addEventListener("load", function() {
 		PD.thing.aim.y = (e.clientY - e.target.offsetTop) / scale;
 	});
 	PD.canvas.addEventListener("click", function(e) {
-		if(!PD.thing.aim) {
+		if(!PD.thing.aim || PD.shots.length > PD.MAXSHOTS) {
 			return;
 		}
-		if(PD.shot.length > 2) {
-		}
+		shoot();
 	});
 
 	var cbs = [];

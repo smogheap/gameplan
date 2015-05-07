@@ -83,7 +83,7 @@ function penduinOBJ(obj, cb) {
 			return;
 		}
 
-		if(instance && instances && instances.length) {
+		if(instance && instances) {
 			instances.every(function(ins) {
 				// FIXME: not quite right if scale/x/y are 0
 				drawPart(ctx, part,
