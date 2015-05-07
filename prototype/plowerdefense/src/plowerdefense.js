@@ -6,6 +6,7 @@ var PD = {
 	scene: null,
 	json: {},
 	thing: {},
+	activesperm: 4,
 	sperms: [],
 	shots: [],
 	input: {
@@ -91,6 +92,11 @@ function shoot() {
 }
 
 function tick(scene, time) {
+	var delshot = -1;
+	var delsperm = -1;
+	var dx = 0;
+	var dy = 0;
+
 	PD.thing.egg.$.cell.scale = 0.5 + (Math.sin(time / 200) * 0.02);
 	PD.thing.egg.$.nucleus.scale = 0.4 + (Math.cos(time / 200) * 0.05);
 
@@ -116,7 +122,6 @@ function tick(scene, time) {
 	if(Math.abs(PD.oldangle - PD.thing.egg.$.cell.rotate) > 45  &&
 	   Math.abs((PD.oldangle + 360) - (PD.thing.egg.$.cell.rotate)) > 45 &&
 	   Math.abs((PD.oldangle) - (PD.thing.egg.$.cell.rotate + 360)) > 45) {
-		console.log(PD.oldangle, PD.thing.egg.$.cell.rotate);
 		PD.speed = 0;
 	} else {
 		if(PD.input.up || PD.input.down || PD.input.left || PD.input.right) {
@@ -132,19 +137,26 @@ function tick(scene, time) {
 	wrap(PD.thing.egg);
 
 	// move shots
-	var delidx = -1;
 	PD.shots.every(function(shot, idx) {
 		move(shot, shot.rotate, shot.speed);
 
 		if(shot.y < 0 || shot.x < 0 ||
 		   shot.x > PD.WIDTH || shot.y > PD.HEIGHT) {
-			delidx = idx;
+			delshot = idx;
 		}
 
+		PD.sperms.every(function(sperm, sidx) {
+			if(Math.pow(sperm.x - shot.x, 2) + Math.pow(sperm.y - shot.y , 2) <
+			   Math.pow(20, 2)) {
+				delshot = idx;
+				delsperm = sidx;
+			}
+			return true;
+		});
 		return true;
 	});
-	if(delidx >= 0) {
-		PD.shots.splice(delidx, 1);
+	if(delshot >= 0) {
+		PD.shots.splice(delshot, 1);
 	}
 
 	// animate sperms
@@ -159,24 +171,58 @@ function tick(scene, time) {
 	// move sperms
 	PD.sperms.every(function(sperm) {
 
-		// idiot, swims erratically
-		//sperm.rotate += (Math.random() - 0.5) * 10;
-
-		// orbit
-		//dx = sperm.x - PD.thing.egg.x;
-		//dy = sperm.y - PD.thing.egg.y;
-		//sperm.rotate = Math.atan2(dx, dy) / (Math.PI / -180);
-
-		// perfect chase
-		dx = PD.thing.egg.x - sperm.x;
-		dy = PD.thing.egg.y - sperm.y;
-		sperm.rotate = (Math.atan2(-dx, dy) / TO_RADIANS) + 90;
+		if(sperm.mode === 0) {
+			// idiot, swims erratically
+			sperm.rotate += (Math.random() - 0.5) * 10;
+		} else if(sperm.mode === 1) {
+			// orbit
+			dx = sperm.x - PD.thing.egg.x;
+			dy = sperm.y - PD.thing.egg.y;
+			sperm.rotate = Math.atan2(dx, dy) / (Math.PI / -180);
+		} else if(sperm.mode === 2) {
+			// perfect chase
+			dx = PD.thing.egg.x - sperm.x;
+			dy = PD.thing.egg.y - sperm.y;
+			sperm.rotate = (Math.atan2(-dx, dy) / TO_RADIANS) + 90;
+		} else {
+			// undefined, sit and spin
+			sperm.rotate += 10;
+		}
 
 		move(sperm, sperm.rotate, sperm.speed);
 		wrap(sperm);
 
 		return true;
 	});
+	if(delsperm >= 0) {
+		PD.sperms.splice(delsperm, 1);
+	}
+
+	// send in more sperms
+	if(PD.sperms.length < PD.activesperm) {
+		var x = Math.random() * PD.WIDTH;
+		var y = Math.random() * PD.HEIGHT;
+		if(Math.random() < 0.5) {
+			if(Math.random() < 0.5) {
+				x = 0;
+			} else {
+				x = PD.WIDTH;
+			}
+		} else {
+			if(Math.random() < 0.5) {
+				y = 0;
+			} else {
+				y = PD.HEIGHT;
+			}
+		}
+		PD.sperms.push({
+			x: x,
+			y: y,
+			rotate: Math.random() * 360,
+			speed: Math.random() + 0.5,
+			mode: Math.floor(Math.random() * 3)
+		});
+	}
 }
 
 function start() {
@@ -189,32 +235,6 @@ function start() {
 	PD.thing.egg.x = PD.WIDTH / 2;
 	PD.thing.egg.y = PD.HEIGHT / 2;
 	PD.scene.addOBJ(PD.thing.sperm);
-	PD.sperms = [
-		{
-			x: 100,
-			y: 100,
-			rotate: 0,
-			speed: 1,
-		},
-		{
-			x: 200,
-			y: 200,
-			rotate: 90,
-			speed: 1.5
-		},
-		{
-			x: 300,
-			y: 300,
-			rotate: 180,
-			speed: 0.5,
-		},
-		{
-			x: 400,
-			y: 400,
-			rotate: 270,
-			speed: 0.9
-		}
-	];
 	PD.thing.sperm.setInstances(PD.sperms);
 	PD.thing.shot.setInstances(PD.shots);
 
@@ -235,11 +255,12 @@ window.addEventListener("load", function() {
 		PD.thing.aim.x = (e.clientX - e.target.offsetLeft) / scale;
 		PD.thing.aim.y = (e.clientY - e.target.offsetTop) / scale;
 	});
-	PD.canvas.addEventListener("click", function(e) {
-		if(!PD.thing.aim || PD.shots.length > PD.MAXSHOTS) {
-			return;
+	PD.canvas.addEventListener("mousedown", function(e) {
+		if(PD.thing.aim && PD.shots.length <= PD.MAXSHOTS) {
+			shoot();
 		}
-		shoot();
+		e.preventDefault();
+		return false;
 	});
 
 	var cbs = [];
@@ -294,4 +315,11 @@ window.addEventListener("keydown", function(e) {
 });
 window.addEventListener("keyup", function(e) {
 	handlekey(e, false);
+});
+
+window.addEventListener("selectstart", function(e) {
+	e.preventDefault();
+	return false;
+});
+window.addEventListener("dblclick", function(e) {
 });
