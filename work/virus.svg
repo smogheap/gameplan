@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   id="svg5387"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 64 64"
+   sodipodi:docname="virus.svg">
+  <defs
+     id="defs5389" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="13.044487"
+     inkscape:cy="34.262186"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:window-width="1040"
+     inkscape:window-height="1032"
+     inkscape:window-x="0"
+     inkscape:window-y="16"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid5935" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5392">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="opacity:1;fill:#ad7fa8;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 14 4 A 2 2 0 0 0 12 6 A 2 2 0 0 0 14 8 A 2 2 0 0 0 14.451172 7.9472656 L 22.453125 24.753906 A 12 12 0 0 0 22.388672 24.839844 L 7.953125 18.423828 A 2 2 0 0 0 8 18 A 2 2 0 0 0 6 16 A 2 2 0 0 0 4 18 A 2 2 0 0 0 6 20 A 2 2 0 0 0 6.9335938 19.767578 L 20.089844 30.603516 A 12 12 0 0 0 20.019531 31.628906 L 7.6875 32.927734 A 2 2 0 0 0 6 32 A 2 2 0 0 0 4 34 A 2 2 0 0 0 6 36 A 2 2 0 0 0 7.9941406 34.117188 L 20.566406 35.595703 A 12 12 0 0 0 21.701172 38.134766 L 10.863281 48.199219 A 2 2 0 0 0 10 48 A 2 2 0 0 0 8 50 A 2 2 0 0 0 10 52 A 2 2 0 0 0 12 50 A 2 2 0 0 0 11.875 49.3125 L 23.341797 40.302734 A 12 12 0 0 0 25.003906 41.736328 L 22.261719 52.019531 A 2 2 0 0 0 22 52 A 2 2 0 0 0 20 54 A 2 2 0 0 0 22 56 A 2 2 0 0 0 24 54 A 2 2 0 0 0 23.625 52.837891 L 28.646484 43.513672 A 12 12 0 0 0 32 44 A 12 12 0 0 0 32.132812 43.996094 L 32.953125 56.296875 A 2 2 0 0 0 32 58 A 2 2 0 0 0 34 60 A 2 2 0 0 0 36 58 A 2 2 0 0 0 34.132812 56.005859 L 35.818359 43.359375 A 12 12 0 0 0 37.603516 42.603516 L 44.177734 49.177734 A 2 2 0 0 0 44 50 A 2 2 0 0 0 46 52 A 2 2 0 0 0 48 50 A 2 2 0 0 0 46 48 A 2 2 0 0 0 45.447266 48.078125 L 40.75 40.25 L 52.007812 41.857422 A 2 2 0 0 0 52 42 A 2 2 0 0 0 54 44 A 2 2 0 0 0 56 42 A 2 2 0 0 0 54 40 A 2 2 0 0 0 52.998047 40.271484 L 43.873047 33.634766 A 12 12 0 0 0 43.96875 32.605469 L 56.011719 30.197266 A 2 2 0 0 0 58 32 A 2 2 0 0 0 60 30 A 2 2 0 0 0 58 28 A 2 2 0 0 0 56.177734 29.177734 L 56 29 L 43.330078 27.310547 L 53.257812 15.855469 A 2 2 0 0 0 54 16 A 2 2 0 0 0 56 14 A 2 2 0 0 0 54 12 A 2 2 0 0 0 52 14 A 2 2 0 0 0 52.095703 14.603516 L 39.746094 22.835938 A 12 12 0 0 0 34.796875 20.34375 L 34.111328 7.9960938 A 2 2 0 0 0 36 6 A 2 2 0 0 0 34 4 A 2 2 0 0 0 32 6 A 2 2 0 0 0 32.712891 7.53125 L 30.351562 20.126953 A 12 12 0 0 0 26.021484 21.613281 L 15.71875 7.0175781 A 2 2 0 0 0 16 6 A 2 2 0 0 0 14 4 z "
+       id="path5937" />
+    <circle
+       style="opacity:1;fill:#e9b96e;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5984"
+       cx="32"
+       cy="32"
+       r="6" />
+  </g>
+</svg>
