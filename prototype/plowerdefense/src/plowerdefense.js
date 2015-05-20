@@ -28,6 +28,9 @@ var PD = {
 	spermorbit: 0,
 	spermchase: 0,
 	victory: 0,
+	score: 0,
+	chain: 0,
+	showpoints: 0
 };
 var LEVELS = [
 	{
@@ -247,6 +250,38 @@ function shoot() {
 	});
 }
 
+function score(points, x, y) {
+	if(points) {
+		if(PD.showpoints) {
+			PD.chain++;
+			PD.text.chain.setString((PD.chain + 1) + "x CHAIN");
+			PD.text.chain.x = x || 0;
+			PD.text.chain.y = y || 0;
+			PD.text.chain.setVisible(true);
+		} else {
+			PD.chain = 0;
+		}
+		PD.showpoints = 60;  // frames 'til chain over
+		if(PD.chain) {
+			points *= (1 + PD.chain);
+		}
+
+		PD.text.points.setString("" + points);
+		PD.text.points.x = x || 0;
+		PD.text.points.y = y || 0;
+		PD.text.points.setVisible(true);
+
+		PD.score += points;
+	} else {
+		PD.score = 0;
+	}
+	var str = "" + PD.score;
+	while(str.length < 8) {
+		str = "0" + str;
+	}
+	PD.text.score.setString(str);
+}
+
 function loadlevel(lvl, time) {
 	if(isNaN(lvl) || LEVELS.length < lvl) {
 		console.log("invalid level '" + lvl + "', using 0");
@@ -402,6 +437,7 @@ function tick(scene, time) {
 		return true;
 	});
 	if(delsperm >= 0) {
+		score(10, PD.sperms[delsperm].x, PD.sperms[delsperm].y);
 		PD.sperms.splice(delsperm, 1);
 	}
 
@@ -445,6 +481,13 @@ function tick(scene, time) {
 	if(!PD.victory && !PD.remaining && !PD.sperms.length) {
 		PD.victory = 59;
 	}
+	if(PD.showpoints) {
+		PD.showpoints--;
+		if(!PD.showpoints) {
+			PD.text.points.setVisible(false);
+			PD.text.chain.setVisible(false);
+		}
+	}
 }
 
 function start() {
@@ -472,6 +515,20 @@ function start() {
 	PD.text.lvl.y = PD.text.level.y = PD.HEIGHT / 2;
 	PD.scene.addTEXT(PD.text.lvl);
 	PD.scene.addTEXT(PD.text.level);
+
+	PD.text.score = new penduinTEXT("00000000", 20, "white", 0.5, 0, true);
+	PD.text.score.setVisible(true);
+	PD.text.score.x = PD.WIDTH / 2;
+	PD.text.score.y = 4;
+	PD.scene.addTEXT(PD.text.score);
+
+	PD.text.chain = new penduinTEXT("1x CHAIN", 15, "#ff0", 0.5, 1, true);
+	PD.text.chain.setVisible(false);
+	PD.scene.addTEXT(PD.text.chain);
+
+	PD.text.points = new penduinTEXT("0", 15, "white", 0.5, 0, true);
+	PD.text.points.setVisible(false);
+	PD.scene.addTEXT(PD.text.points);
 }
 
 window.addEventListener("load", function() {
@@ -537,12 +594,14 @@ function handlekey(event, down) {
 	case 61:  //+
 	case 107: //num+
 		if(down) {
+			score();
 			PD.victory = 1;
 		}
 		break;
 	case 109: //num-
 	case 173: //-
 		if(down) {
+			score();
 			PD.level -= 2;
 			PD.victory = 1;
 		}

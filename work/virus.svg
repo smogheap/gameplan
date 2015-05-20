@@ -15,7 +15,10 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    viewBox="0 0 64 64"
-   sodipodi:docname="virus.svg">
+   sodipodi:docname="virus.svg"
+   inkscape:export-filename="/home/penduin/proj/smogheap/gameplan/trunk/prototype/plowerdefense/image/virus1.png"
+   inkscape:export-xdpi="720"
+   inkscape:export-ydpi="720">
   <defs
      id="defs5389" />
   <sodipodi:namedview
@@ -25,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.5"
-     inkscape:cx="13.044487"
-     inkscape:cy="34.262186"
+     inkscape:zoom="3.8890873"
+     inkscape:cx="31.365585"
+     inkscape:cy="42.211453"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -37,7 +40,7 @@
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:window-width="1040"
+     inkscape:window-width="1678"
      inkscape:window-height="1032"
      inkscape:window-x="0"
      inkscape:window-y="16"
