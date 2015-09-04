@@ -288,3 +288,46 @@ window.addEventListener("selectstart", function(e) {
 });
 window.addEventListener("dblclick", function(e) {
 });
+
+
+function toserver() {
+	var state = {};
+	["black", "white"].every(function(team) {
+		state[team] = [];
+		BATTLE[team].every(function(fighter) {
+			state[team].push({
+				x: fighter.x,
+				y: fighter.y,
+				rot: fighter.obj.$.dot.rotate,
+				rest: fighter.rest,
+				swing: fighter.swing
+			});
+			return true;
+		});
+		return true;
+	});
+	var r = new XMLHttpRequest();
+	r.open("POST", "/updatestate", true);
+	r.onreadystatechange = function () {
+		if(r.readyState != 4 || r.status != 200) return;
+//		alert("Success: " + r.responseText);
+	};
+	r.send(JSON.stringify(state));
+}
+function fromserver(state) {
+	var state = null;
+	var r = new XMLHttpRequest();
+	r.open("GET", "/updatestate", true);
+	r.onreadystatechange = function () {
+		if(r.readyState != 4 || r.status != 200) return;
+		state = JSON.parse(r.responseText);
+		["black", "white"].every(function(team) {
+			if(BATTLE[team].length !== state[team].length) {
+				// add/remove fighters
+				//FIXME: give id's or something
+			}
+		});
+//		alert("Success: " + r.responseText);
+	};
+	r.send();
+}
