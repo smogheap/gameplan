@@ -1,0 +1,54 @@
+<html>
+  <head>
+   <title>gameplan concept demo: battle</title>
+   <meta name="viewport" content="initial-scale=1.0,user-scalable=no" />
+    <style>
+      body, html {
+        background: black;
+        overflow: hide;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      #page {
+        display: table;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #center {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+      #display {
+        cursor: none;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript" src="src/penduinart.js"></script>
+    <script type="text/javascript" src="src/battle.js"></script>
+	<!-- data to LOAD() below -->
+    <script type="text/javascript" src="asset/aim.js"></script>
+    <script type="text/javascript" src="asset/blackcastle.js"></script>
+    <script type="text/javascript" src="asset/whitecastle.js"></script>
+    <script type="text/javascript" src="asset/black.js"></script>
+    <script type="text/javascript" src="asset/white.js"></script>
+
+  </head>
+  <body>
+    <div id="page"><div id="center">
+      <canvas id="display"></canvas>
+    </div></div>
+  </body>
+</html>
